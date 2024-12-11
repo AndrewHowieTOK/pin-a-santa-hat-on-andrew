@@ -1,0 +1,86 @@
+<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin the Santa Hat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        #canvas {
+            border: 2px dashed #ddd;
+            margin-top: 10px;
+        }
+
+        #controls {
+            margin: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pin the Santa Hat</h1>
+    <p>Click and drag the Santa hat to place it on the background!</p>
+
+    <div id="game-container">
+        <canvas id="canvas" width="800" height="600"></canvas>
+        <div id="controls">
+            <button id="downloadBtn">Save Image</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Load local files
+        let uploadedImage = new Image();
+        uploadedImage.src = './background-photo.jpg'; // Change to your local background photo
+
+        let santaHat = new Image();
+        santaHat.src = './santa-hat.png'; // Change to your local Santa hat image
+
+        // Santa hat position and size
+        let hatX = 300, hatY = 100, hatWidth = 200, hatHeight = 150;
+        let isDragging = false;
+
+        uploadedImage.onload = drawCanvas;
+        santaHat.onload = drawCanvas;
+
+        // Mouse events for dragging
+        canvas.addEventListener('mousedown', (e) => {
+            const { offsetX, offsetY } = e;
+            if (
+                offsetX >= hatX &&
+                offsetX <= hatX + hatWidth &&
+                offsetY >= hatY &&
+                offsetY <= hatY + hatHeight
+            ) {
+                isDragging = true;
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const { offsetX, offsetY } = e;
+                hatX
